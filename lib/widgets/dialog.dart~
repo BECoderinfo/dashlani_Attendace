@@ -1,0 +1,30 @@
+import '../utils/import.dart';
+
+Future<void> showConfirmationDialog({
+  required String actionType,
+  required String message,
+  required VoidCallback onConfirm,
+}) async {
+  showDialog(
+    context: Get.context!,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(actionType),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              onConfirm();
+              Navigator.of(context).pop();
+            },
+            child: const Text('Confirm'),
+          ),
+        ],
+      );
+    },
+  );
+}

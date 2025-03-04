@@ -1,0 +1,14 @@
+import 'package:attendance_app/utils/import.dart';
+
+class MyProfileController extends GetxController {
+  RxInt currentTab = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  void changeTab({required int index}) {
+    currentTab.value = index;
+  }
+}

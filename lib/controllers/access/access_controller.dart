@@ -1,0 +1,31 @@
+import 'package:attendance_app/utils/import.dart';
+
+import '../../services/api_service.dart';
+
+class AccessController extends GetxController {
+  final BuildContext ctx;
+
+  AccessController({required this.ctx});
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  getData() async {
+    try {
+      var res = await ApiService.getApi(
+          Apis.getById(id: AppVariables.box.read(StorageKeys.aId)), ctx);
+      if (res != null) {
+        AppVariables.box.write(StorageKeys.access, res['user']['access']);
+
+        if (AppVariables.box.read(StorageKeys.access)) {
+          (Routes.navigation).offAllNamed();
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+}

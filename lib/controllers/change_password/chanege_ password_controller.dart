@@ -1,0 +1,49 @@
+import 'package:attendance_app/services/api_service.dart';
+import 'package:attendance_app/utils/import.dart';
+
+class ChangePasswordController extends GetxController {
+  RxBool isLoading = false.obs;
+
+  final BuildContext ctx;
+
+  ChangePasswordController({required this.ctx});
+
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  RxBool oldPasswordVisible = true.obs;
+  RxBool newPasswordVisible = true.obs;
+  RxBool confirmPasswordVisible = true.obs;
+
+  final formKey = GlobalKey<FormState>();
+
+  void updatePassword() async {
+    if (!formKey.currentState!.validate()) return;
+    try {
+      isLoading.value = true;
+
+      var response = await ApiService.postApi(
+        Apis.changePassword,
+        ctx,
+        body: {
+          "email": AppVariables.box.read(StorageKeys.aEmail),
+          "currentPassword": oldPasswordController.text,
+          "newPassword": newPasswordController.text,
+        },
+      );
+
+      if (response != null) {
+        ShowToast.showSuccessGfToast(
+          msg: "Password changed successfully",
+          ctx: ctx,
+        );
+        Get.back();
+      }
+    } catch (e) {
+      ShowToast.showFailedGfToast(msg: "Change Password Failed", ctx: ctx);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}

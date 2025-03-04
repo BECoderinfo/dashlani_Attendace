@@ -1,0 +1,113 @@
+import 'package:attendance_app/services/api_service.dart';
+import 'package:attendance_app/utils/import.dart';
+import 'package:flutter/cupertino.dart';
+
+class SignupController extends GetxController {
+  final BuildContext ctx;
+
+  SignupController({required this.ctx});
+
+  final _formKey = GlobalKey<FormState>();
+
+  GlobalKey<FormState> get key => _formKey;
+
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lastName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController cPassword = TextEditingController();
+
+  final isPasswordHidden = true.obs;
+  final isCPasswordHidden = true.obs;
+  RxBool isLoading = false.obs;
+
+  void togglePasswordVisibility() {
+    isPasswordHidden.value = !isPasswordHidden.value;
+  }
+
+  void toggleCPasswordVisibility() {
+    isCPasswordHidden.value = !isCPasswordHidden.value;
+  }
+
+  void signUp() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        var res = await ApiService.postApi(Apis.signUp, ctx, body: {
+          "name": "${firstName.text} ${lastName.text}",
+          "email": email.text,
+          "password": password.text,
+        });
+
+        if (res != null) {
+          showDialog(
+            context: ctx,
+            builder: (context) => const SignupDialog(),
+          );
+        }
+      } catch (e) {
+        ShowToast.showFailedGfToast(msg: 'SignUp failed', ctx: ctx);
+      } finally {
+        isLoading.value = false;
+      }
+    }
+  }
+}
+
+class SignupDialog extends StatelessWidget {
+  const SignupDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircleAvatar(
+              radius: 80,
+              backgroundColor: AppColors.iconBg,
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: AppColors.iconColor,
+                child: Icon(
+                  CupertinoIcons.checkmark_alt_circle,
+                  color: AppColors.whiteColor,
+                  size: 40,
+                ),
+              ),
+            ),
+            const Gap(30),
+            const Text(
+              "Successfully Signed Up",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
+            ),
+            const Gap(20),
+            InkWell(
+              onTap: () {
+                Get.offNamedUntil(
+                  Routes.loginScreen,
+                  (route) => false,
+                );
+              },
+              child: Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.iconColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  "Login",
+                  style: TextStyle(fontSize: 20, color: AppColors.whiteColor),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,139 @@
+import 'package:attendance_app/utils/import.dart';
+import 'package:flutter/cupertino.dart';
+
+class Setting extends StatelessWidget {
+  const Setting({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ProfileController profileController = Get.find<ProfileController>();
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            const Gap(40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  child: const SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Icon(CupertinoIcons.back),
+                    ),
+                  ),
+                  onTap: () {
+                    Get.back();
+                  },
+                ),
+                const Text(
+                  'Settings',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.blackColor,
+                  ),
+                ),
+                const Gap(30),
+              ],
+            ),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.only(top: 10.0),
+                children: [
+                  _buildSettingItem(
+                    title: "Notification Preferences",
+                    icon: CupertinoIcons.bell,
+                    onTap: () {
+                      Get.toNamed(Routes
+                          .notification); // Navigate to Notification Settings
+                    },
+                  ),
+                  _buildSettingItem(
+                    title: "Change Password",
+                    icon: CupertinoIcons.lock,
+                    onTap: () {
+                      Get.toNamed(
+                        Routes.changePassword,
+                      ); // Navigate to Change Password
+                    },
+                  ),
+                  _buildSettingItem(
+                    title: "Terms & Conditions",
+                    icon: CupertinoIcons.doc_text,
+                    onTap: () {
+                      Get.toNamed(Routes.termsAndConditions);
+                      // Get.toNamed('/terms'); // Navigate to Terms & Conditions
+                    },
+                  ),
+                  _buildSettingItem(
+                    title: "About App",
+                    icon: CupertinoIcons.info,
+                    onTap: () {
+                      // Get.toNamed('/about'); // Navigate to About App
+                    },
+                  ),
+                  _buildSettingItem(
+                    title: "Logout",
+                    icon: CupertinoIcons.power,
+                    onTap: () {
+                      _showLogoutDialog(context);
+                    },
+                    isDestructive: true,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSettingItem({
+    required String title,
+    required IconData icon,
+    required VoidCallback onTap,
+    bool isDestructive = false,
+  }) {
+    return ListTile(
+      contentPadding: const EdgeInsets.all(0),
+      leading:
+          Icon(icon, color: isDestructive ? Colors.red : AppColors.blackColor),
+      title: Text(title,
+          style: TextStyle(
+              color: isDestructive ? Colors.red : AppColors.blackColor)),
+      trailing: isDestructive ? null : const Icon(CupertinoIcons.forward),
+      onTap: onTap,
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context, ProfileController controller) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              // Perform logout logic
+              controller.logout();
+            },
+            child: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
