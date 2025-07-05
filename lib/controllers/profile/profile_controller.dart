@@ -106,7 +106,6 @@ class ProfileController extends GetxController {
       var res = await ApiService.deleteApi(Apis.logout, ctx,
           headers: {'token': AppVariables.box.read(StorageKeys.aToken)});
       if (res != null) {
-        // ShowToast.showSuccessGfToast(msg: "Logout successfully", ctx: ctx);
         AppVariables.box.erase();
       }
     } catch (e) {
@@ -116,7 +115,5 @@ class ProfileController extends GetxController {
       Routes.loginScreen,
       (route) => false,
     );
-    // ShowToast.showSuccessGfToast(
-    //     msg: 'You have been logged out successfully', ctx: ctx);
   }
 }

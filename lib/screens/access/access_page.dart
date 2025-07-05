@@ -1,3 +1,4 @@
+import 'package:attendance_app/controllers/access/access_controller.dart';
 import 'package:attendance_app/utils/import.dart';
 
 class AccessPage extends StatelessWidget {
@@ -5,27 +6,31 @@ class AccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Your Account is on Check Please Wait...",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 30),
+    return GetBuilder<AccessController>(
+        init: AccessController(ctx: context),
+        builder: (context) {
+          return const Scaffold(
+            body: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Your Account is on Check Please Wait...",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 30),
+                  ),
+                  const Gap(30),
+                  Text(
+                    "Close App and Try Again Later",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
             ),
-            const Gap(30),
-            Text(
-              "Close App and Try Again Later",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
+        });
   }
 }

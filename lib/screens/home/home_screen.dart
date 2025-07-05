@@ -1,3 +1,5 @@
+import 'package:attendance_app/modals/activity/activity_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import '../../utils/import.dart';
 import '../../widgets/sliding_container.dart';
@@ -8,6 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(HomeController(ctx: context));
+    final navController = Get.put(BottomNavController());
 
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
@@ -16,10 +19,16 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: CircleAvatar(
-                radius: 22,
-                backgroundImage: NetworkImage(
-                  '${AppVariables.box.read(StorageKeys.aImage)}',
+              leading: GestureDetector(
+                onTap: () {
+                  navController.selectedIndex.value = 3;
+                },
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: AppColors.secondaryColor,
+                  backgroundImage: CachedNetworkImageProvider(
+                    '${AppVariables.box.read(StorageKeys.aImage)}',
+                  ),
                 ),
               ),
               title: Text(
@@ -54,15 +63,120 @@ class HomeScreen extends StatelessWidget {
                   child: RefreshIndicator(
                     onRefresh: controller.refreshScreen,
                     child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
                       child: Column(
                         children: [
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Today Attendance",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.chats);
+                            },
+                            child: Container(
+                              height: 54,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppColors.whiteColor,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.05),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Chat",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  RichText(
+                                    text: const TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "You have ",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.blackColor,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: "3 new messages",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.secondaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
+                          ),
+                          const Gap(16),
+                          Row(
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Today Attendance",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const Spacer(),
+                              Obx(
+                                () => (controller.dashModel.value.checkInTime ==
+                                        null)
+                                    ? const Gap(0)
+                                    : (controller
+                                                .dashModel.value.checkOutTime !=
+                                            null)
+                                        ? const Gap(0)
+                                        : GestureDetector(
+                                            onTap: () {
+                                              controller.inOut();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.cached,
+                                                  size: 20,
+                                                ),
+                                                const Gap(8),
+                                                Obx(
+                                                  () => Text(
+                                                    controller.isIn.value
+                                                        ? "In"
+                                                        : "Out",
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: controller
+                                                                .isIn.value
+                                                            ? AppColors
+                                                                .greenColor
+                                                            : AppColors
+                                                                .redColor,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                              ),
+                            ],
                           ),
                           const Gap(16),
                           Obx(
@@ -71,9 +185,11 @@ class HomeScreen extends StatelessWidget {
                                 Expanded(
                                   child: _GridItemTile(
                                     title: "Check In",
-                                    value: controller
-                                            .dashModel.value.checkInTime ??
-                                        "Non",
+                                    value: controller.isLoading.value
+                                        ? "..."
+                                        : controller
+                                                .dashModel.value.checkInTime ??
+                                            "Non",
                                     icon: Icons.login,
                                     subtitle: 'On Time',
                                   ),
@@ -82,9 +198,11 @@ class HomeScreen extends StatelessWidget {
                                 Expanded(
                                   child: _GridItemTile(
                                     title: "Check Out",
-                                    value: controller
-                                            .dashModel.value.checkOutTime ??
-                                        "Non",
+                                    value: controller.isLoading.value
+                                        ? "..."
+                                        : controller
+                                                .dashModel.value.checkOutTime ??
+                                            "Non",
                                     icon: Icons.logout,
                                     subtitle: 'Go Home',
                                   ),
@@ -96,10 +214,12 @@ class HomeScreen extends StatelessWidget {
                           Obx(
                             () => Row(
                               children: [
-                                const Expanded(
+                                Expanded(
                                   child: _GridItemTile(
                                     title: "Break Time",
-                                    value: "01:00 hr",
+                                    value: controller.isLoading.value
+                                        ? "..."
+                                        : "01:00 hr",
                                     icon: Icons.coffee_sharp,
                                     subtitle: 'Avg Time 1 hr',
                                   ),
@@ -108,8 +228,9 @@ class HomeScreen extends StatelessWidget {
                                 Expanded(
                                   child: _GridItemTile(
                                     title: "Total Days",
-                                    value:
-                                        "${controller.dashModel.value.totalAttendances ?? 0}",
+                                    value: controller.isLoading.value
+                                        ? "..."
+                                        : "${controller.dashModel.value.totalAttendances ?? 0}",
                                     icon: Icons.calendar_month,
                                     subtitle: 'Working Days',
                                   ),
@@ -117,54 +238,85 @@ class HomeScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Gap(16),
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Your Activity",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          const Gap(16),
-                          ListView.builder(
-                            padding: const EdgeInsets.all(0),
-                            itemCount: 4,
-                            itemBuilder: (context, index) {
-                              return Card(
-                                child: ListTile(
-                                  leading: Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.iconBg,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: const Icon(
-                                      Icons.calendar_month,
-                                      color: AppColors.iconColor,
-                                    ),
-                                  ),
-                                  title: const Text(
-                                    'Meeting with Team',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  subtitle: const Text(
-                                    'Meeting with Team',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.greyColor,
-                                    ),
-                                  ),
+                          const Gap(10),
+                          Row(
+                            children: [
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "Your Activity",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
                                 ),
-                              );
-                            },
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                style: TextButton.styleFrom(),
+                                onPressed: () {
+                                  Get.toNamed(Routes.allActivity);
+                                },
+                                child: const Text("See All"),
+                              ),
+                            ],
                           ),
+                          // const Gap(16),
+                          Obx(
+                            () => (controller.isGettingActivity.value)
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : (controller.activityList.isEmpty)
+                                    ? const Center(
+                                        child: Text('No Activity Today'))
+                                    : ListView.builder(
+                                        padding: const EdgeInsets.all(0),
+                                        itemCount:
+                                            controller.activityList.length,
+                                        itemBuilder: (context, index) {
+                                          ActivityModel activity =
+                                              controller.activityList[index];
+                                          return Card(
+                                            child: ListTile(
+                                              leading: Container(
+                                                height: 40,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.iconBg,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: Icon(
+                                                  (activity.activityType ==
+                                                          'In')
+                                                      ? Icons.login
+                                                      : Icons.logout,
+                                                  color: AppColors.iconColor,
+                                                ),
+                                              ),
+                                              title: Text(
+                                                "${activity.activityType} / Time: ${activity.createdAt.formatTimeStringInIndia()}",
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              subtitle: Text(
+                                                activity.title ?? 'Non',
+                                                style: const TextStyle(
+                                                  fontSize: 12,
+                                                  color: AppColors.greyColor,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                      ),
+                          ),
+                          const Gap(40),
                         ],
                       ),
                     ),
@@ -178,7 +330,7 @@ class HomeScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Obx(
         () => controller.isLoading.value
-            ? const CircularProgressIndicator()
+            ? const SizedBox.shrink()
             : controller.dashModel.value.checkInTime == null
                 ? SwipeButton(
                     backgroundColor: AppColors.secondaryColor,
@@ -202,6 +354,14 @@ class HomeScreen extends StatelessWidget {
                     : const SizedBox.shrink(),
       ),
     );
+  }
+}
+
+extension DateTimeExtensions on DateTime {
+  String formatTimeStringInIndia() {
+    // IST is UTC +5:30
+    final istTime = toUtc().add(const Duration(hours: 5, minutes: 30));
+    return DateFormat('hh:mm a').format(istTime);
   }
 }
 

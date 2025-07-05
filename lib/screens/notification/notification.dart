@@ -43,23 +43,25 @@ class Notifications extends StatelessWidget {
             Obx(
               () => Flexible(
                 child: controller.isLoading.value
-                    ? const CircularProgressIndicator()
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(0),
-                        itemBuilder: (BuildContext context, int index) {
-                          NotificationModal notification =
-                              controller.notifications[index];
-                          return NotificationTile(
-                              icon: notification.resiveModel == "Admin"
-                                  ? Icons.person
-                                  : Icons.group,
-                              title: notification.title,
-                              description: notification.description!,
-                              date: DateFormat('yyyy-MM-dd')
-                                  .format(notification.createdAt));
-                        },
-                        itemCount: controller.notifications.length,
-                      ),
+                    ? const Center(child: CircularProgressIndicator())
+                    : controller.notifications.isEmpty
+                        ? const Center(child: Text('No Notification'))
+                        : ListView.builder(
+                            padding: const EdgeInsets.all(0),
+                            itemBuilder: (BuildContext context, int index) {
+                              NotificationModal notification =
+                                  controller.notifications[index];
+                              return NotificationTile(
+                                  icon: notification.resiveModel == "Admin"
+                                      ? Icons.person
+                                      : Icons.group,
+                                  title: notification.title,
+                                  description: notification.description!,
+                                  date: DateFormat('yyyy-MM-dd')
+                                      .format(notification.createdAt));
+                            },
+                            itemCount: controller.notifications.length,
+                          ),
               ),
             ),
           ],

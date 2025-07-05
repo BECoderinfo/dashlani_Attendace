@@ -320,7 +320,7 @@ class _TabButton extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.iconColor : Colors.transparent,
+            color: isActive ? AppColors.secondaryColor : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -705,7 +705,7 @@ class _FilterSheetContentState extends State<FilterSheetContent> {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: AppColors.iconColor,
+                        color: AppColors.secondaryColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: const Text(

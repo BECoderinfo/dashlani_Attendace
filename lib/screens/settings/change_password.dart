@@ -156,7 +156,7 @@ class ChangePassword extends StatelessWidget {
             height: 58,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.iconColor,
+              color: AppColors.secondaryColor,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),

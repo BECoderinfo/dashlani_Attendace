@@ -25,14 +25,10 @@ class LoginScreen extends GetView<LoginController> {
                 child: Form(
                   key: controller.formKey, // Add form key for validation
                   child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Gap(40),
-                      Image.asset(
-                        AppAssets.textLogo,
-                        height: 100,
-                      ),
-                      const Gap(30),
                       const Text(
                         'Welcome Back 👋',
                         style: TextStyle(
@@ -109,7 +105,7 @@ class LoginScreen extends GetView<LoginController> {
                           },
                           child: const Text(
                             'Forgot Password?',
-                            style: TextStyle(color: AppColors.iconColor),
+                            style: TextStyle(color: AppColors.secondaryColor),
                           ),
                         ),
                       ),
@@ -121,7 +117,7 @@ class LoginScreen extends GetView<LoginController> {
                             height: 60,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: AppColors.iconColor,
+                              color: AppColors.secondaryColor,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             alignment: Alignment.center,
@@ -140,7 +136,7 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                         ),
                       ),
-                      const Spacer(),
+                      const Gap(10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -150,7 +146,7 @@ class LoginScreen extends GetView<LoginController> {
                             child: const Text(
                               'Register',
                               style: TextStyle(
-                                color: AppColors.iconColor,
+                                color: AppColors.secondaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

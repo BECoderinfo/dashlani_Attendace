@@ -210,7 +210,7 @@ class CreateLeave extends StatelessWidget {
             height: 60,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.iconColor,
+              color: AppColors.secondaryColor,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),

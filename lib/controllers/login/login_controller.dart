@@ -24,10 +24,11 @@ class LoginController extends GetxController {
   RxBool isLoading = false.obs;
 
   @override
-  void onClose() {
+  void dispose() {
+    // TODO: implement dispose
     emailController.dispose();
     passwordController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   void togglePasswordVisibility() {
@@ -151,9 +152,9 @@ class LoginController extends GetxController {
       update();
     } catch (e) {
       Get.showSnackbar(
-        GetSnackBar(
-          message: e.toString(),
-          duration: const Duration(seconds: 3),
+        const GetSnackBar(
+          message: "Server connection error",
+          duration: Duration(seconds: 3),
         ),
       );
       isLoading.value = false;

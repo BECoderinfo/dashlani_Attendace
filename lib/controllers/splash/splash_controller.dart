@@ -14,10 +14,10 @@ class SplashController extends GetxController {
       },
     );
 
-    3.delay().then(
+    6.delay().then(
       (value) {
         if (AppVariables.box.read(StorageKeys.isLoggedIn) ?? false) {
-          if (AppVariables.box.read(StorageKeys.access)) {
+          if (AppVariables.box.read(StorageKeys.access) ?? false) {
             (Routes.navigation).offAllNamed();
           } else {
             (Routes.accessPage).offAllNamed();

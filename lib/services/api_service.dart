@@ -196,37 +196,6 @@ class ApiService {
     }
   }
 
-  //
-  // static Future<dynamic> deleteApiBody(
-  //   String url,
-  //   Map<String, List<String>> body,
-  // ) async {
-  //   try {
-  //     final response = await delete(
-  //       url,
-  //       headers: Apis.headersValue,
-  //       body: jsonEncode(body),
-  //     ).timeout(Apis.timeoutDuration);
-  //
-  //     return _processResponse(response);
-  //   } on SocketException {
-  //     handleSocketException();
-  //   } on TimeoutException {
-  //     ShowToast.errorSnackbar(
-  //       title: "Error",
-  //       msg: "Request timed out. Please try again.",
-  //     );
-  //     return null;
-  //   } catch (e) {
-  //     ShowToast.errorSnackbar(
-  //       title: "Error",
-  //       msg: "Unexpected error occurred: $e",
-  //     );
-  //
-  //     return null;
-  //   }
-  // }
-
   static Future<dynamic> postApi(
     String url,
     BuildContext ctx, {
@@ -273,9 +242,9 @@ class ApiService {
     Response response,
     BuildContext ctx,
   ) {
-    print("S :: ${response.body}");
-    print("S :: ${response.statusCode}");
-    print("S :: ${response.request?.url}");
+    log("S :: ${response.body}");
+    log("S :: ${response.statusCode}");
+    log("S :: ${response.request?.url}");
     switch (response.statusCode) {
       case 200 || 201:
         return response.body;
@@ -291,42 +260,23 @@ class ApiService {
         throw BadRequestException('Bad request: ${response.body}');
       case 401:
       case 404:
-        if (response.request?.url
-                .toString()
-                .contains("/attendance/getstudent/") ??
-            false) {
-          return null;
-        }
         ShowToast.showFailedGfToast(
           ctx: ctx,
           msg:
-              'Error occurred while communicating with server. Status code: ${response.statusCode}',
+              "${response.body['message'] ?? "Error occurred while communicating with server."}",
         );
         return null;
       case 403:
         throw UnauthorisedException('Unauthorized: ${response.body}');
       case 500:
-        if (response.body['message'] != null &&
-                response.request?.url.toString().contains("/gallery/delete/") ==
-                    false ||
-            response.request?.url
-                    .toString()
-                    .contains("/admin/otpverification") ==
-                false) {
-          ShowToast.showFailedGfToast(
-            ctx: ctx,
-            msg:
-                "${response.body['message'] ?? "Something went wrong.Please try again."}",
-          );
-        }
-        return null;
-
-      default:
         ShowToast.showFailedGfToast(
           ctx: ctx,
           msg:
-              'Error occurred while communicating with server. Status code: ${response.statusCode}',
+              "${response.body['message'] ?? "Something went wrong.Please try again."}",
         );
+        return null;
+
+      default:
         return null;
     }
   }

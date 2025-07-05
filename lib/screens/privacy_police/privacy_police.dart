@@ -65,7 +65,7 @@ class PrivacyPolice extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.iconColor,
+                        color: AppColors.secondaryColor,
                       ),
                     ),
                     const Gap(10),

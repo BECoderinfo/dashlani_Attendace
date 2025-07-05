@@ -9,24 +9,24 @@ class CreateLeaveController extends GetxController {
 
   CreateLeaveController({required this.ctx});
 
+  LeaveModal? leave = Get.arguments != null ? Get.arguments['leave'] : null;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
 
-    LeaveModal? leave = Get.arguments['leave'];
-
     if (leave != null) {
-      id = leave.id;
+      id = leave!.id;
       updateMode.value = true;
-      leaveType.value = leave.type;
-      contactController.text = leave.contactNo;
+      leaveType.value = leave!.type;
+      contactController.text = leave!.contactNo;
       startDateController.text =
-          DateFormat('MMM d, yyyy').format(leave.startDate);
-      endDateController.text = DateFormat('MMM d, yyyy').format(leave.endDate);
-      startDate = leave.startDate;
-      endDate = leave.endDate;
-      leaveReasonController.text = leave.reason;
+          DateFormat('MMM d, yyyy').format(leave!.startDate);
+      endDateController.text = DateFormat('MMM d, yyyy').format(leave!.endDate);
+      startDate = leave!.startDate;
+      endDate = leave!.endDate;
+      leaveReasonController.text = leave!.reason;
     }
   }
 
@@ -50,7 +50,9 @@ class CreateLeaveController extends GetxController {
 
   void edit() async {
     if (formKey.currentState!.validate()) {
-      numberOfDays.value = (endDate!.difference(startDate!).inDays).toString();
+      final daysDifference = endDate!.difference(startDate!).inDays +
+          1; // +1 to include both start and end dates
+      numberOfDays.value = daysDifference.toString();
 
       try {
         isSaving.value = true;
@@ -93,7 +95,7 @@ class CreateLeaveController extends GetxController {
                       backgroundColor: AppColors.iconBg,
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundColor: AppColors.iconColor,
+                        backgroundColor: AppColors.secondaryColor,
                         child: Icon(
                           CupertinoIcons.checkmark_alt_circle,
                           color: AppColors.whiteColor,
@@ -130,7 +132,7 @@ class CreateLeaveController extends GetxController {
                           height: 60,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: AppColors.iconColor,
+                            color: AppColors.secondaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Text(
@@ -148,9 +150,22 @@ class CreateLeaveController extends GetxController {
           );
           isSaving.value = false;
         }
+      } on SocketException catch (_) {
+        ShowToast.showFailedGfToast(
+          msg: 'No internet connection. Please check your network.',
+          ctx: ctx,
+        );
+      } on FormatException catch (_) {
+        ShowToast.showFailedGfToast(
+          msg: 'Invalid data format. Please try again.',
+          ctx: ctx,
+        );
       } catch (e) {
-        isSaving.value = false;
-        ShowToast.showFailedGfToast(msg: e.toString(), ctx: ctx);
+        ShowToast.showFailedGfToast(
+          msg: 'An error occurred. Please try again later.',
+          ctx: ctx,
+        );
+        log('Leave submission error: $e');
       } finally {
         isSaving.value = false;
         leaveReasonController.clear();
@@ -163,7 +178,9 @@ class CreateLeaveController extends GetxController {
 
   void submit() async {
     if (formKey.currentState!.validate()) {
-      numberOfDays.value = (endDate!.difference(startDate!).inDays).toString();
+      final daysDifference = endDate!.difference(startDate!).inDays +
+          1; // +1 to include both start and end dates
+      numberOfDays.value = daysDifference.toString();
 
       try {
         isSaving.value = true;
@@ -209,7 +226,7 @@ class CreateLeaveController extends GetxController {
                       backgroundColor: AppColors.iconBg,
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundColor: AppColors.iconColor,
+                        backgroundColor: AppColors.secondaryColor,
                         child: Icon(
                           CupertinoIcons.checkmark_alt_circle,
                           color: AppColors.whiteColor,
@@ -246,7 +263,7 @@ class CreateLeaveController extends GetxController {
                           height: 60,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color: AppColors.iconColor,
+                            color: AppColors.secondaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Text(
@@ -264,9 +281,22 @@ class CreateLeaveController extends GetxController {
           );
           isSaving.value = false;
         }
+      } on SocketException catch (_) {
+        ShowToast.showFailedGfToast(
+          msg: 'No internet connection. Please check your network.',
+          ctx: ctx,
+        );
+      } on FormatException catch (_) {
+        ShowToast.showFailedGfToast(
+          msg: 'Invalid data format. Please try again.',
+          ctx: ctx,
+        );
       } catch (e) {
-        isSaving.value = false;
-        ShowToast.showFailedGfToast(msg: e.toString(), ctx: ctx);
+        ShowToast.showFailedGfToast(
+          msg: 'An error occurred. Please try again later.',
+          ctx: ctx,
+        );
+        log('Leave submission error: $e');
       } finally {
         isSaving.value = false;
         leaveReasonController.clear();

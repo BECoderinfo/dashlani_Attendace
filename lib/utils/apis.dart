@@ -4,7 +4,7 @@ class Apis {
     'Content-Type': 'application/json'
   };
   static const String serverAddress =
-      "https://dashlani-attendance.onrender.com";
+      "http://69.62.81.76:3001";
 
   // static const String serverAddress =
   //     "https://dashlani-attendance-production.up.railway.app";
@@ -73,4 +73,11 @@ class Apis {
 
   static String getNotification({required String id}) =>
       "$serverAddress/notification/user/$id";
+
+  /// activity log
+  static const String activityLog = "$serverAddress/activity/create";
+
+  static const String activity = "$serverAddress/activity/user";
+
+  static const String allActivity = "$serverAddress/activity/usersAllActivity";
 }

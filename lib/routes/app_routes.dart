@@ -24,5 +24,10 @@ abstract class Routes {
 
   static const String accessPage = '/access-page';
 
-  static String changePassword = '/change-password';
+  static const String changePassword = '/change-password';
+
+  static const String allActivity = '/all-activity';
+
+  static const String chats = '/chats';
+  static const String chat = '/chat';
 }

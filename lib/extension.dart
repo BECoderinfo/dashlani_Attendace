@@ -41,18 +41,6 @@ extension NavigationExtension on String {
     );
   }
 
-  // offNamed({
-  //   VoidCallback? onTap,
-  // }) {
-  //   Get.offNamed(this)?.then(
-  //     (value) {
-  //       if (onTap != null) {
-  //         onTap();
-  //       }
-  //     },
-  //   );
-  // }
-
   offAllNamed({
     VoidCallback? onTap,
   }) {

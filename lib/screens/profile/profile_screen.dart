@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../utils/import.dart';
@@ -29,7 +30,7 @@ class ProfilePage extends StatelessWidget {
                         () => controller.isLoading.value
                             ? const CircleAvatar(
                                 radius: 50,
-                                backgroundColor: AppColors.iconColor,
+                                backgroundColor: AppColors.secondaryColor,
                                 child: CircularProgressIndicator(
                                   color: AppColors.whiteColor,
                                 ),
@@ -37,14 +38,14 @@ class ProfilePage extends StatelessWidget {
                             : controller.profileImage.value.isEmpty
                                 ? const CircleAvatar(
                                     radius: 50,
-                                    backgroundColor: AppColors.iconColor,
-                                    backgroundImage: NetworkImage(
+                                    backgroundColor: AppColors.secondaryColor,
+                                    backgroundImage: CachedNetworkImageProvider(
                                         'https://play-lh.googleusercontent.com/7oW_TFaC5yllHJK8nhxHLQRCvGDE8jYIAc2SWljYpR6hQlFTkbA6lNvER1ZK-doQnQ=w240-h480-rw'),
                                   )
                                 : CircleAvatar(
                                     radius: 50,
-                                    backgroundColor: AppColors.iconColor,
-                                    backgroundImage: NetworkImage(
+                                    backgroundColor: AppColors.secondaryColor,
+                                    backgroundImage: CachedNetworkImageProvider(
                                         controller.profileImage.value),
                                   ),
                       ),
@@ -59,7 +60,7 @@ class ProfilePage extends StatelessWidget {
                             height: 30,
                             width: 30,
                             decoration: BoxDecoration(
-                              color: AppColors.iconColor,
+                              color: AppColors.secondaryColor,
                               borderRadius: BorderRadius.circular(10),
                               border: Border.all(color: AppColors.whiteColor),
                             ),
@@ -101,7 +102,7 @@ class ProfilePage extends StatelessWidget {
                     height: 60,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.iconColor,
+                      color: AppColors.secondaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     alignment: Alignment.center,

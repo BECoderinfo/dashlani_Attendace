@@ -11,6 +11,7 @@ class AccessController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    getData();
   }
 
   getData() async {
@@ -19,6 +20,9 @@ class AccessController extends GetxController {
           Apis.getById(id: AppVariables.box.read(StorageKeys.aId)), ctx);
       if (res != null) {
         AppVariables.box.write(StorageKeys.access, res['user']['access']);
+        AppVariables.box.write(StorageKeys.aRole, res['user']['role']);
+
+        log(AppVariables.box.read(StorageKeys.access).toString());
 
         if (AppVariables.box.read(StorageKeys.access)) {
           (Routes.navigation).offAllNamed();

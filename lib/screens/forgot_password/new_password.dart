@@ -123,7 +123,7 @@ class NewPassword extends StatelessWidget {
                           width: double.infinity,
                           height: 60,
                           decoration: BoxDecoration(
-                            color: AppColors.iconColor,
+                            color: AppColors.secondaryColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(

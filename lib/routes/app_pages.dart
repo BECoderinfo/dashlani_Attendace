@@ -1,7 +1,10 @@
 import 'package:attendance_app/screens/access/access_page.dart';
+import 'package:attendance_app/screens/chat/chat.dart';
+import 'package:attendance_app/screens/chat/chat_list.dart';
 import 'package:attendance_app/screens/forgot_password/forgot_password.dart';
 import 'package:attendance_app/screens/forgot_password/new_password.dart';
 import 'package:attendance_app/screens/forgot_password/otp.dart';
+import 'package:attendance_app/screens/home/all_avtivity.dart';
 import 'package:attendance_app/screens/notification/notification.dart';
 import 'package:attendance_app/screens/privacy_police/privacy_police.dart';
 import 'package:attendance_app/screens/profile/my_profile.dart';
@@ -104,6 +107,18 @@ class AppPages {
     GetPage(
       name: Routes.changePassword,
       page: () => const ChangePassword(),
+    ),
+    GetPage(
+      name: Routes.allActivity,
+      page: () => const AllAvtivity(),
+    ),
+    GetPage(
+      name: Routes.chats,
+      page: () => const ChatList(),
+    ),
+    GetPage(
+      name: Routes.chat,
+      page: () => const Chat(),
     ),
   ];
 }

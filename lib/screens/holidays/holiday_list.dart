@@ -51,12 +51,8 @@ class HolidayList extends StatelessWidget {
                           },
                         )
                       : (controller.holidayList.isEmpty)
-                          ? ListView(
-                              children: const [
-                                Center(
-                                  child: Text('No holidays found'),
-                                ),
-                              ],
+                          ? const Center(
+                              child: Text('No holidays found'),
                             )
                           : ListView.builder(
                               padding: const EdgeInsets.only(top: 16.0),
@@ -132,7 +128,7 @@ class HolidayTile extends StatelessWidget {
             width: 10,
             height: double.infinity,
             decoration: BoxDecoration(
-              color: isPassed ? AppColors.iconBg : AppColors.iconColor,
+              color: isPassed ? AppColors.iconBg : AppColors.secondaryColor,
               // Color based on status
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),

@@ -13,4 +13,7 @@ class StorageKeys {
 
   static const String termsUpdate = 'terms_update';
   static const String privacyUpdate = 'privacy_update';
+
+  static const String activity = 'activity';
+  static const String date = 'date';
 }

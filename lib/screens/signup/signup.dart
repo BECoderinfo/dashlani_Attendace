@@ -19,11 +19,6 @@ class Signup extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Gap(40),
-                Image.asset(
-                  AppAssets.textLogo,
-                  height: 100,
-                ),
-                const Gap(20),
                 const Text(
                   'Register Account',
                   style: TextStyle(
@@ -160,9 +155,13 @@ class Signup extends StatelessWidget {
                 const Gap(2),
                 Row(
                   children: [
-                    Checkbox(
-                      value: false,
-                      onChanged: (value) {},
+                    Obx(
+                      () => Checkbox(
+                        value: controller.checkBox.value,
+                        onChanged: (value) {
+                          controller.checkBox.value = value!;
+                        },
+                      ),
                     ),
                     const Text('I agree to the Terms and Conditions'),
                   ],
@@ -170,13 +169,18 @@ class Signup extends StatelessWidget {
                 const Gap(6),
                 Obx(
                   () => InkWell(
-                    onTap: () =>
-                        controller.isLoading.value ? null : controller.signUp(),
+                    onTap: () => !controller.checkBox.value
+                        ? null
+                        : controller.isLoading.value
+                            ? null
+                            : controller.signUp(),
                     child: Container(
                       height: 60,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                        color: AppColors.iconColor,
+                        color: controller.checkBox.value
+                            ? AppColors.secondaryColor
+                            : Colors.grey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Center(
@@ -208,7 +212,7 @@ class Signup extends StatelessWidget {
                       child: const Text(
                         'Login',
                         style: TextStyle(
-                          color: AppColors.iconColor,
+                          color: AppColors.secondaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

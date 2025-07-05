@@ -53,7 +53,7 @@ class NavigationScreen extends StatelessWidget {
                   Icons.house_outlined,
                 ),
                 selectedIcon: const Icon(Icons.house_rounded),
-                selectedColor: AppColors.iconColor,
+                selectedColor: AppColors.secondaryColor,
                 unSelectedColor: AppColors.greyColor,
                 title: const Text('Home'),
               ),
@@ -64,7 +64,7 @@ class NavigationScreen extends StatelessWidget {
                 selectedIcon: const Icon(
                   Icons.calendar_month,
                 ),
-                selectedColor: AppColors.iconColor,
+                selectedColor: AppColors.secondaryColor,
                 unSelectedColor: AppColors.greyColor,
                 title: const Text('Leaves'),
               ),
@@ -75,7 +75,7 @@ class NavigationScreen extends StatelessWidget {
                 selectedIcon: const Icon(
                   Icons.holiday_village,
                 ),
-                selectedColor: AppColors.iconColor,
+                selectedColor: AppColors.secondaryColor,
                 unSelectedColor: AppColors.greyColor,
                 title: const Text('Holiday'),
               ),
@@ -86,7 +86,7 @@ class NavigationScreen extends StatelessWidget {
                 selectedIcon: const Icon(
                   Icons.person,
                 ),
-                selectedColor: AppColors.iconColor,
+                selectedColor: AppColors.secondaryColor,
                 unSelectedColor: AppColors.greyColor,
                 title: const Text('Profile'),
               ),

@@ -11,6 +11,8 @@ class SignupController extends GetxController {
 
   GlobalKey<FormState> get key => _formKey;
 
+  RxBool checkBox = false.obs;
+
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -70,7 +72,7 @@ class SignupDialog extends StatelessWidget {
               backgroundColor: AppColors.iconBg,
               child: CircleAvatar(
                 radius: 50,
-                backgroundColor: AppColors.iconColor,
+                backgroundColor: AppColors.secondaryColor,
                 child: Icon(
                   CupertinoIcons.checkmark_alt_circle,
                   color: AppColors.whiteColor,
@@ -96,7 +98,7 @@ class SignupDialog extends StatelessWidget {
                 height: 60,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.iconColor,
+                  color: AppColors.secondaryColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,

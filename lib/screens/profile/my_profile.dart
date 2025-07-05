@@ -175,7 +175,7 @@ class _TabButton extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.iconColor : Colors.transparent,
+            color: isActive ? AppColors.secondaryColor : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(

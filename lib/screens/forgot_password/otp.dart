@@ -74,11 +74,8 @@ class Otp extends StatelessWidget {
                         text: const TextSpan(
                           children: [
                             TextSpan(
-                                text: '00:30',
-                                style: TextStyle(color: AppColors.blackColor)),
-                            TextSpan(
                               text: ' Resend it',
-                              style: TextStyle(color: AppColors.iconColor),
+                              style: TextStyle(color: AppColors.secondaryColor),
                             ),
                           ],
                         ),

@@ -97,14 +97,11 @@ Future<void> main() async {
     await setupFlutterNotifications();
   }
 
-  // var token = await FirebaseMessaging.instance.getToken();
-
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]).then(
     (value) {
-      // print("Token :: $token");
       runApp(const AttendanceApp());
     },
   );
@@ -119,9 +116,8 @@ class AttendanceApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: appTheme,
       title: 'Attendance App',
-      defaultTransition: Transition.fade,
       transitionDuration: const Duration(
-        milliseconds: 850,
+        milliseconds: 400,
       ),
       initialRoute: AppPages.initialRoute,
       getPages: AppPages.routes,
